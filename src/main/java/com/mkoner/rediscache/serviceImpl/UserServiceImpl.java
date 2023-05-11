@@ -14,7 +14,7 @@ import java.util.Objects;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
     @Override
     public User createUser(User user) {
         return userRepository.save(user);
