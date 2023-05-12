@@ -24,18 +24,20 @@ public class UserServiceImpl implements UserService {
     public User updateUser(User user, Long id) {
         User userToUpdate = userRepository.findById(id)
                 .orElseThrow(()-> new EntityNotFoundException("No user found with the id " + id));
-        if(!user.getFirstName().isBlank()) userToUpdate.setFirstName(user.getFirstName());
-        if(!user.getFirstName().isBlank()) userToUpdate.setLastName(user.getLastName());
+        if(!user.getFirstName().isBlank() && Objects.nonNull((user.getFirstName()))) userToUpdate.setFirstName(user.getFirstName());
+        if(!user.getLastName().isBlank() && Objects.nonNull(user.getLastName())) userToUpdate.setLastName(user.getLastName());
         return userRepository.save(userToUpdate);
     }
 
     @Override
     public List<User> getAllUsers() {
+        System.out.println("DB called");
         return userRepository.findAll();
     }
 
     @Override
     public User getUserById(Long id) {
+        System.out.println("DB called");
         return userRepository.findById(id)
                 .orElseThrow(()->new EntityNotFoundException("No user found with the id " + id));
     }
