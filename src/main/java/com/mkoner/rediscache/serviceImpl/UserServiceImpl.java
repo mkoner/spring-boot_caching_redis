@@ -19,12 +19,13 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
     @Override
+    @CacheEvict(value = "users", allEntries = true)
     public User createUser(User user) {
         return userRepository.save(user);
     }
 
     @Override
-    @CachePut(value = "users", key = "#id")
+    @CacheEvict(value = "users", allEntries = true)
     public User updateUser(User user, Long id) {
         User userToUpdate = userRepository.findById(id)
                 .orElseThrow(()-> new EntityNotFoundException("No user found with the id " + id));
@@ -49,8 +50,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @CacheEvict(value = "users", key = "#id")
+    @CacheEvict(value = "users", allEntries = true)
     public void deleteUser(long id) {
+        getUserById(id);
         userRepository.deleteById(id);
     }
 }
